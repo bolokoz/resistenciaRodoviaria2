@@ -21,22 +21,7 @@ shinyUI(fluidPage(
           "Peso [kg]:",
           min = 0,
           max = 500000,
-          value = 6300
-        ),
-        numericInput(
-          "P",
-          "Potencia maxima [kW]:",
-          min = 0,
-          max = 90000,
-          value = 110
-        ),
-        sliderInput(
-          "Potencia utilizada [%]",
-          min = 0,
-          max = 100,
-          step = 1,
-          value = 100,
-          inputId = "cP"
+          value = 430
         ),
         numericInput(
           "c1",
@@ -65,6 +50,13 @@ shinyUI(fluidPage(
           min = 0,
           max = 90000,
           value = 0.046
+        ),
+        numericInput(
+          "d",
+          "diametro do pneu: [m]",
+          min = 0.001,
+          max = 90000,
+          value = 0.73
         )
       ),
       
@@ -80,7 +72,7 @@ shinyUI(fluidPage(
         )
       ),
       tabPanel(
-        "Velocidade",
+        "Motor",
         numericInput(
           "vmax",
           "Velocidade maxima:",
@@ -89,11 +81,49 @@ shinyUI(fluidPage(
           value = 105
         ),
         numericInput(
+          "P",
+          "Potencia maxima [kW]:",
+          min = 0,
+          max = 90000,
+          value = 110
+        ),
+        sliderInput(
+          "Potencia utilizada [%]",
+          min = 0,
+          max = 100,
+          step = 1,
+          value = 100,
+          inputId = "cP"
+        ),
+        numericInput(
           "vmin",
           "Velocidade minima:",
           min = 0,
           max = 5000,
           value = 15
+        )
+      ),
+      
+      
+      tabPanel(
+        "Marchas",
+        textInput(
+          "marchas",
+          value = ("160, 1000; 220, 1400; 300, 1600;"),
+          label = "Funcao da potencia: \n Ex: potencia1, rotacao1; potencia2, rotacao2;..."
+        ),
+        textInput(
+          "reducoes",
+          value = ("1, 10; 2, 7.9; 3, 5.8; 4, 4.3; 5, 3.2; 6, 2.5; 7, 1.9; 8, 1.4; 9, 1.2; 10, 0.9;
+                   "),
+          label = "Reducoes Ex: marcha1, reducao1; marcha2, reducao2;..."
+        ),
+        numericInput(
+          "gt",
+          "reducao diferencial",
+          min = 0,
+          max = 500,
+          value = 5.9
         )
       )
     )
