@@ -1,4 +1,5 @@
 
+
 #
 #    http://shiny.rstudio.com/
 #asdasd
@@ -6,23 +7,26 @@
 library(shiny)
 library(plotly)
 
+
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
   # Application title
   titlePanel("Resistencia Rodoviaria"),
   
   # Sidebar with a slider input for number of bins
-  sidebarLayout(sidebarPanel(
-    tabsetPanel(
+  sidebarLayout(
+    sidebarPanel(tabsetPanel(
       tabPanel(
         "Veiculo",
+        
         numericInput(
           "gL",
-          "Peso [kg]:",
+          "Peso [kN]:",
           min = 0,
           max = 500000,
           value = 430
         ),
+        
         numericInput(
           "c1",
           "c1:",
@@ -30,6 +34,7 @@ shinyUI(fluidPage(
           max = 90000,
           value = 0.65
         ),
+        
         numericInput(
           "c2",
           "c2:",
@@ -37,6 +42,7 @@ shinyUI(fluidPage(
           max = 90000,
           value = 125
         ),
+        
         numericInput(
           "aL",
           "Area frontal [m2]",
@@ -44,6 +50,7 @@ shinyUI(fluidPage(
           max = 50,
           value = 10
         ),
+        
         numericInput(
           "ca",
           "ca:",
@@ -51,6 +58,7 @@ shinyUI(fluidPage(
           max = 90000,
           value = 0.046
         ),
+        
         numericInput(
           "d",
           "diametro do pneu: [m]",
@@ -58,10 +66,12 @@ shinyUI(fluidPage(
           max = 90000,
           value = 0.73
         )
+        
       ),
       
       tabPanel(
         "Rampa",
+        
         numericInput(
           "i",
           "Inclininacao da rampa:",
@@ -70,16 +80,23 @@ shinyUI(fluidPage(
           value = 0,
           step = 0.05
         )
+        
       ),
       tabPanel(
         "Motor",
-        numericInput(
-          "vmax",
-          "Velocidade maxima:",
-          min = 0,
-          max = 9000,
-          value = 105
+        
+        textInput(
+          "potencias",
+          value = ("160,220,300"),
+          label = "Funcao da potencia: \n Ex: potencia1, rotacao1; potencia2, rotacao2;..."
         ),
+        
+        textInput(
+          "rotacoes",
+          value = ("1000,1400,1600"),
+          label = "Funcao da potencia: \n Ex: potencia1, rotacao1; potencia2, rotacao2;..."
+        ),
+        
         numericInput(
           "P",
           "Potencia maxima [kW]:",
@@ -87,6 +104,7 @@ shinyUI(fluidPage(
           max = 90000,
           value = 110
         ),
+        
         sliderInput(
           "Potencia utilizada [%]",
           min = 0,
@@ -95,48 +113,60 @@ shinyUI(fluidPage(
           value = 100,
           inputId = "cP"
         ),
+        
+        numericInput(
+          "vmax",
+          "Velocidade maxima:",
+          min = 0,
+          max = 9000,
+          value = 105
+        ),
+        
         numericInput(
           "vmin",
           "Velocidade minima:",
           min = 0,
           max = 5000,
           value = 15
+          
         )
+        
       ),
       
       
       tabPanel(
         "Marchas",
-        textInput(
-          "marchas",
-          value = ("160, 1000; 220, 1400; 300, 1600;"),
-          label = "Funcao da potencia: \n Ex: potencia1, rotacao1; potencia2, rotacao2;..."
-        ),
+        
+        textInput("n_marchas",
+                  value = ("10"),
+                  label = "Numero de marchas"),
+        
         textInput(
           "reducoes",
-          value = ("1, 10; 2, 7.9; 3, 5.8; 4, 4.3; 5, 3.2; 6, 2.5; 7, 1.9; 8, 1.4; 9, 1.2; 10, 0.9;
-                   "),
-          label = "Reducoes Ex: marcha1, reducao1; marcha2, reducao2;..."
+          value = ("10,7.9,5.8,4.3,3.2,2.5,1.9,1.4,1.2,0.9"),
+          label = "Reducoes Ex: reducao1,reducao2"
         ),
+        
         numericInput(
-          "gt",
+          "gd",
           "reducao diferencial",
           min = 0,
           max = 500,
           value = 5.9
         )
+        
       )
-    )
-  ),
-  # Show a plot of the generated distribution
-  mainPanel(
-    plotlyOutput("distPlot"),
-    tableOutput("table"),
-    textOutput("ft"),
-    textOutput("rt"),
-    hr(),
-    h3(
-      a(href="http://yuribecker.com.br","yuribecker.com.br")
-    )
-  ))
-))
+    )),
+    # Show a plot of the generated distribution
+    mainPanel(
+      tableOutput("sTable"),
+      tableOutput("vTable")
+      
+     # plotlyOutput("distPlot")
+              #tableOutput("table"),
+              #textOutput("ft"),
+              #textOutput("rt"))
+    ))
+  )
+)
+  
