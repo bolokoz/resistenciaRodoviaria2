@@ -15,20 +15,25 @@ shinyServer(function(input, output) {
     
     # DADOS
     
-    reducoes = unlist(strsplit(input$reducoes,","))
-    rotacoes = unlist(strsplit(input$rotacoes,","))
-    potencias = unlist(strsplit(input$potencias,","))
-    marchas = seq(input$n_marchas)
+    reducoes = as.numeric(unlist(strsplit(input$reducoes,",")))
+    rotacoes = as.numeric(unlist(strsplit(input$rotacoes,",")))
+    potencias = as.numeric(unlist(strsplit(input$potencias,",")))
+    marchas = seq(as.numeric(input$n_marchas))
     
     # VELOCIDADE
     
     v = function(N,gt)
       ((60* N * 3.1415 * input$d) / (1000 * input$gd * gt))
     
+    # marcha 1
+    
+    m1 = v(rotacoes,reducoes[1])
+    m2 = sapply(rotacoes,v(rotacoes,reducoes[2]))
+    
     # Create velocity table
     
-    velocity.df = data.frame(rotacoes)
-
+    velocity.df = data.frame(rotacoes,m1,m2)
+    
     
   })
   
@@ -40,7 +45,7 @@ shinyServer(function(input, output) {
     reducoes = unlist(strsplit(input$reducoes,","))
     rotacoes = unlist(strsplit(input$rotacoes,","))
     potencias = unlist(strsplit(input$potencias,","))
-    marchas = seq(input$n_marchas)
+    marchas = seq(as.numeric(input$n_marchas))
     
     
     # Create shift table
@@ -64,6 +69,7 @@ shinyServer(function(input, output) {
     
     stable = stable()
     
-    })
+    },
+    include.colnames=FALSE)
 
 })
