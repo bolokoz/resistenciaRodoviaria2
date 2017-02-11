@@ -105,6 +105,14 @@ shinyUI(fluidPage(
           value = 110
         ),
         
+        numericInput(
+          "efi",
+          "Eficiencia motor:",
+          min = 0,
+          max = 1,
+          value = 0.82
+        ),
+        
         sliderInput(
           "Potencia utilizada [%]",
           min = 0,
@@ -160,7 +168,8 @@ shinyUI(fluidPage(
     # Show a plot of the generated distribution
     mainPanel(
       tableOutput("sTable"),
-      tableOutput("vTable")
+      tableOutput("vTable"),
+      tableOutput("fTable")
       
      # plotlyOutput("distPlot")
               #tableOutput("table"),
