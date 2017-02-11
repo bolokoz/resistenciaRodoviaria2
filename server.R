@@ -25,14 +25,21 @@ shinyServer(function(input, output) {
     v = function(N,gt)
       ((60* N * 3.1415 * input$d) / (1000 * input$gd * gt))
     
-    # marcha 1
-    
-    m1 = v(rotacoes,reducoes[1])
-    m2 = sapply(rotacoes,v(rotacoes,reducoes[2]))
     
     # Create velocity table
     
-    velocity.df = data.frame(rotacoes,m1,m2)
+    velocity.df = data.frame(matrix(NA, ncol = length(marchas) + 1, nrow = length(rotacoes)))
+    colnames(velocity.df) = c("Rotacoes", marchas)
+    
+    velocity.df[1] = rotacoes
+    velocity.df[1,1:length(marchas) + 1] = v(rotacoes[1],reducoes)
+    
+    for(i in 1:length(rotacoes)){
+      
+      velocity.df[i,1:length(marchas) + 1] = v(rotacoes[i],reducoes)
+    }
+    
+    velocity.df
     
     
   })
