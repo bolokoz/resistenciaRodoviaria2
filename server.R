@@ -118,9 +118,56 @@ shinyServer(function(input, output) {
     
   })
 
-  # output$distPlot <- renderPlotly({
-  #   
-  # })
+  output$distPlot <- renderPlotly({
+     
+    # RESISTENCIAS
+    
+    ## ROLAMENTO
+    rr = function(x)
+      (input$c1 + (input$c2 * x))* input$gL
+    
+    
+    ## AERODINAMICA
+    ra = function(x)
+      (input$ca * x ^ 2 * input$aL)
+    
+    ## RAMPA
+    rg = (input$gL * 10 * input$i)
+    
+    layout_settings_x = list(
+      title = " Velocidade [kmh]",
+      dtick = 10,
+      rangemode = "nonnegative"
+    )
+    
+    layout_settings_y = list(
+      title = " Forca [kN]",
+      exponentformat = "E",
+      dtick = 200,
+      range = c(0, ftmax*1.2 )
+    )
+    
+    
+    plot_ly(data, x = ~ vel) %>%
+      add_trace(y = ~ ft, mode = 'lines', type='scatter', name = "Forca Motriz") %>%
+      add_trace(y = ~ rt, mode = 'lines', type='scatter', name = "Resistencia total ") %>%
+      
+      add_trace(x = vel_lim, y = ftmax, name = "Limite aderencia",
+                mode = "lines", type='scatter',
+                line = list(dash='dash')) %>%
+      
+      add_trace(x = input$vmax, y = c(0,ftmax), name = "Limite velocidade",
+                mode = "lines",type='scatter',
+                line = list(dash='dash')) %>%
+      # add_trace(x = c(0,110), y = c(800,800),name = "Limite Corrente Eletrica",
+      #           mode = "lines", type='scatter') %>%
+      
+      layout(title = " Forca x Velocidade",
+             xaxis = layout_settings_x,
+             yaxis = layout_settings_y,
+             legend = list(orientation = 'h'))
+    
+   })
   
   output$vTable <- renderTable({
     
